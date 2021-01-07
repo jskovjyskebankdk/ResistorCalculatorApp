@@ -2,7 +2,7 @@ name: Linux Native
 
 on:
   push:
-    branches: [ windowsBuild ]
+    branches: [ DISABLED-windowsBuild ]
 
 jobs:
   build:
