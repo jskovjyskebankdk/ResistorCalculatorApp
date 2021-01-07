@@ -2,9 +2,7 @@ name: Windows
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ windowsBuild ]
 
 jobs:
   build:
@@ -21,16 +19,12 @@ jobs:
           graalvm-version: 20.3.0.java11
       - name: Make staging directory
         run: mkdir staging
-      - name: Gluon License
-        uses: gluonhq/gluon-build-license@v1
-        with:
-          gluon-license: ${{ secrets.GLUON_LICENSE }}
-      - name: Gluon Build
-        run: mvn -Pdesktop client:build client:package
+      - name: Build native with Gradle
+        run: gradlew build nativeCompile nativeLink
         env:
-          GRAALVM_HOME: ${{ env.JAVA_HOME }}
+          GRAALVM_HOME: ${{ env.JAVA_HOME }}    
       - name: Copy native client to staging
-        run: cp -r target/client/x86_64-windows/*.exe staging
+        run: cp -r build/client/x86_64-windows/*.exe staging
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
