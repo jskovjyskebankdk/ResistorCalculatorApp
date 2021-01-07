@@ -1,4 +1,4 @@
-name: Windows
+name: Windows Native
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Make staging directory
         run: mkdir staging
       - name: Build native with Gradle
-        run: gradlew build nativeCompile nativeLink
+        run: ./gradlew.bat build nativeCompile nativeLink
         env:
           GRAALVM_HOME: ${{ env.JAVA_HOME }}    
       - name: Copy native client to staging
